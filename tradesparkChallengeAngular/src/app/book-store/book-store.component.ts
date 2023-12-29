@@ -11,6 +11,8 @@ export class BookStoreComponent implements OnInit {
   books: any[] = [];
   booksDisplaying: any[] = [];
 
+  searchTerm: string = ""
+  selectedCategories: string[] = new Array<string>();
   constructor(private bookStoreService: BookStoreService) { }
 
   ngOnInit(): void {
@@ -18,20 +20,23 @@ export class BookStoreComponent implements OnInit {
       this.books = data;
       this.booksDisplaying = data;
     })
+    //Al momento de iniciar el componente se pushea 'title' a las categorias seleccionadas para que funcione la busqueda al cargar
+    this.selectedCategories.push('title')
   }
+
   /**
    * 
-   * Funcion que filtra la lista completa de libros segun los parametros indicados por el usuario
+   * Funcion que filtra la lista completa de libros por titulo, autor o categoria dependiendo de lo indicado por el usuario
    * 
-   * @param searchTerm termino a buscar en uno o mas campos
    */
-  applyFilter(searchTerm : string , fields : string[]): void {
+  applyFilter(): void {
     this.booksDisplaying = this.books.filter(book => {
-      return fields.includes("title") && book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      fields.includes("author") && book.author.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      fields.includes("categories") && this.categoriesToString(book["categories"]).toLowerCase().includes(searchTerm.toLowerCase())
+      return this.selectedCategories.includes("title") && book.title.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        this.selectedCategories.includes("author") && book.author.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        this.selectedCategories.includes("categories") && this.categoriesToString(book.categories).toLowerCase().includes(this.searchTerm.toLowerCase())
     })
   }
+
   categoriesToString(categories: any[]): string {
     let categoriesString = "";
     categories.forEach((category, index) => {
