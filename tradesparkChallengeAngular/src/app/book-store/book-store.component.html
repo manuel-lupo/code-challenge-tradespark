@@ -1,10 +1,14 @@
 <div class="background-image">
     <h1> Book Store </h1>
-    <div class="filter-input">
-        <form>
-            <input type="text"  (input)="applyFilter($event.target.value)">
-        </form>
-    </div>
+    <form (submit)="$event.preventDefault()">
+        <input type="text" placeholder="Search..." (input)="onTextInput($event)">
+        <label for="category">Filter by:</label>
+        <div class="select-categories">
+            <input type="checkbox" name="category" value="title" checked (change)="onCheckboxChange($event)"> Title
+            <input type="checkbox" name="category" value="author" (change)="onCheckboxChange($event)"> Author
+            <input type="checkbox" name="category" value="categories" (change)="onCheckboxChange($event)"> Categories
+        </div>
+    </form>
     <div class="book-list">
         <div>
             <table>
@@ -16,6 +20,11 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Si booksDisplaying esta vacio muestra mensaje -->
+                    <tr *ngIf="booksDisplaying.length === 0" class="no-results">
+                        <td colspan="3">We didn't find anything...</td>
+                    </tr>
+                    <!-- Mostrar los libros si hay alguno -->
                     <tr *ngFor="let book of booksDisplaying">
                         <td>{{ book["title"] }}</td>
                         <td>{{ book["author"]["name"] }}</td>
@@ -26,4 +35,3 @@
         </div>
     </div>
 </div>
-
