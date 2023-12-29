@@ -1,5 +1,10 @@
 <div class="background-image">
     <h1> Book Store </h1>
+    <div class="filter-input">
+        <form>
+            <input type="text"  (input)="applyFilter($event.target.value)">
+        </form>
+    </div>
     <div class="book-list">
         <div>
             <table>
@@ -11,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let book of books">
+                    <tr *ngFor="let book of booksDisplaying">
                         <td>{{ book["title"] }}</td>
                         <td>{{ book["author"]["name"] }}</td>
                         <td>{{ categoriesToString(book['categories']) }}</td>
