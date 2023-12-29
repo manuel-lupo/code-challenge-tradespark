@@ -19,7 +19,19 @@ export class BookStoreComponent implements OnInit {
       this.booksDisplaying = data;
     })
   }
-
+  /**
+   * 
+   * Funcion que filtra la lista completa de libros segun los parametros indicados por el usuario
+   * 
+   * @param searchTerm termino a buscar en uno o mas campos
+   */
+  applyFilter(searchTerm : string , fields : string[]): void {
+    this.booksDisplaying = this.books.filter(book => {
+      return fields.includes("title") && book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fields.includes("author") && book.author.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      fields.includes("categories") && this.categoriesToString(book["categories"]).toLowerCase().includes(searchTerm.toLowerCase())
+    })
+  }
   categoriesToString(categories: any[]): string {
     let categoriesString = "";
     categories.forEach((category, index) => {
