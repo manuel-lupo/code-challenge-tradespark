@@ -37,6 +37,31 @@ export class BookStoreComponent implements OnInit {
     })
   }
 
+  /**
+ * Funcion que actualiza la lista de categorias seleccionadas cada vez que se da un evento de tipo 'change' en el checkbox
+ * 
+ * @param event evento de tipo 'change'
+ */
+  onCheckboxChange(event: any) {
+    const value: string = event.target.value;
+    if (event.target.checked) {
+      this.selectedCategories.push(value);
+    } else {
+      this.selectedCategories = this.selectedCategories.filter(category => category !== value);
+    }
+  }
+
+  /**
+   * Funcion que actualiza el termino de busqueda cuando se actualiza el input
+   * 
+   * @param event evento de tipo 'input'
+   */
+  onTextInput(event: any) {
+    const value: string = event.target.value;
+    this.searchTerm = value;
+    this.applyFilter()
+  }
+
   categoriesToString(categories: any[]): string {
     let categoriesString = "";
     categories.forEach((category, index) => {
