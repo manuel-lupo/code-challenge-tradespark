@@ -11,4 +11,11 @@ export class BookStoreService {
   getBooks() {
     return this.client.get('http://localhost:8000/bookStore/books/')
   }
+
+  removeCategory(title, category) {
+    return this.client.put('http://localhost:8000/bookStore/remove-category/', {
+      "title" : title,
+      "category": category
+    })
+  }
 }
