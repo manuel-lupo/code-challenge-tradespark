@@ -15,13 +15,26 @@ export class BookStoreComponent implements OnInit {
   selectedCategories: string[] = new Array<string>();
   constructor(private bookStoreService: BookStoreService) { }
 
+  showPopup = false;
+  popup_content = {
+    title: "",
+    categories : ""
+  };
+
   ngOnInit(): void {
-    this.bookStoreService.getBooks().subscribe((data: any[]) => {
-      this.books = data;
-      this.booksDisplaying = data;
-    })
+    this.updateBooks()
     //Al momento de iniciar el componente se pushea 'title' a las categorias seleccionadas para que funcione la busqueda al cargar
     this.selectedCategories.push('title')
+  }
+
+  /**
+   * Funcion que actualiza la lista de libros desde la DB
+   */
+  updateBooks(){
+    this.bookStoreService.getBooks().subscribe((data: any[]) => {
+      this.books = data;
+      this.booksDisplaying = this.books;
+    })
   }
 
   /**
@@ -60,6 +73,31 @@ export class BookStoreComponent implements OnInit {
     const value: string = event.target.value;
     this.searchTerm = value;
     this.applyFilter()
+  }
+
+  openPopup(title, categories): void{
+    this.popup_content = {
+      title : title,
+      categories: categories
+    }
+     this.showPopup = true;
+  }
+
+  closePopup() :void{
+    this.showPopup = false
+    this.updateBooks()
+  }
+
+  //**Funcion que toma los datos del libro indicado y realiza la correspondiente solicitud a la API*/
+  async handleRemCategory(event){
+    event.preventDefault()
+    const data = new FormData(event.target)
+    data.append('title', document.getElementById('selected_title').innerHTML)
+    await this.bookStoreService.removeCategory(data.get('title'), data.get('category'))
+    .toPromise()
+    .then(response => console.log(response))
+    if (this.showPopup)
+      this.closePopup()
   }
 
   categoriesToString(categories: any[]): string {
