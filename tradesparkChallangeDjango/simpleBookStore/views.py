@@ -17,7 +17,7 @@ class BookViewSet(viewsets.ModelViewSet):
     serializer_class = BookSerializer
     
     #Elijo hacer la ruta mediante un metodo put ya que aunque se esta eliminando una entrada de la tabla intermedia, se esta modificando el libro y la categoria
-    @action(detail= False, methods=['put'], url_name= "remove-category", url_path="remove-category/")
+   
     def remove_category_from_book(self, request):
         '''
         Funcion que elimina la categoria (Dada como una string de texto correspondiente al nombre) 
@@ -40,12 +40,18 @@ class BookViewSet(viewsets.ModelViewSet):
         if books.__len__() == 0:
             return Response(data={"message": f"A book named {book_title} was not found"}, status=404)
         
+        deleted = False
+        
         #Recorro tanto libros como categorias por si hay mas de uno con el mismo nombre
         for book in books:
             for category in categories:
                 # Elimina la relación entre el libro y la categoría actuales
-                if category in book.categories:
+                if category in book.categories.all():
                     book.categories.remove(category)
+                    deleted = True
         
-        return Response(data={"message": f"Category '{category_name}' removed from all books named '{book_title}'"}, status=200)
+        if deleted:
+            return Response(data={"message": f"Category '{category_name}' removed from all books named '{book_title}'"}, status=200)
+        else:
+            return Response(data={"message": f"We couldn't delete {category_name} from {book_title}."}, status=500)
         
