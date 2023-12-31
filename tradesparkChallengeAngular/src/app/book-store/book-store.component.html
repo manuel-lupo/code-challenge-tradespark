@@ -17,21 +17,34 @@
                         <th>Book Title</th>
                         <th>Author</th>
                         <th>Category</th>
+                        <th>Remove a category</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Si booksDisplaying esta vacio muestra mensaje -->
                     <tr *ngIf="booksDisplaying.length === 0" class="no-results">
-                        <td colspan="3">We didn't find anything...</td>
+                        <td colspan="4">We didn't find anything...</td>
                     </tr>
                     <!-- Mostrar los libros si hay alguno -->
                     <tr *ngFor="let book of booksDisplaying">
                         <td>{{ book["title"] }}</td>
                         <td>{{ book["author"]["name"] }}</td>
                         <td>{{ categoriesToString(book['categories']) }}</td>
+                        <td><button type="button" (click)="openPopup(book['title'], book['categories'])">X</button></td>
                     </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="popup-background" *ngIf="showPopup">
+            <form class="popup-content" (submit)="handleRemCategory($event)">
+              <h2 id="selected_title">{{popup_content.title}}</h2>
+              <p>Que categoria quiere eliminar?</p>
+              <select name="category" id="category">
+                <option *ngFor="let category of popup_content.categories" value="{{category.name}}">{{category.name}}</option>
+              </select>
+              <button type="submit">Eliminar</button>
+              <button type= "button" (click)="closePopup()">Cerrar</button>
+            </form>
         </div>
     </div>
 </div>
