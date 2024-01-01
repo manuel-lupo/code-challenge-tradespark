@@ -9,12 +9,12 @@ El mismo recibe un objeto JSON con el siguiente formato:
 "category": "Categoria a eliminar"
 }
 
-## Getting started
+### Getting started
 
-### Prerequisites
+####Prerequisites
 Docker and docker-compose. for installation instructions see [here](https://docs.docker.com/install/)
 
-#### Make sure that the docker daemon is running.
+##### Make sure that the docker daemon is running.
 
 
 ### Run the challange
