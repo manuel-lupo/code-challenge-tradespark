@@ -1,6 +1,13 @@
 # TradeSparkChallange
 
-
+##Detalles de la entrega:
+El endpoint de la API para eliminar una categoria es:
+  "bookStore/remove-category/" metodo: PUT
+El mismo recibe un objeto JSON con el siguiente formato:
+{
+"title": "Titulo del libro",
+"category": "Categoria a eliminar"
+}
 
 ## Getting started
 
