@@ -1,6 +1,6 @@
 # TradeSparkChallange
 
-##Detalles de la entrega:
+Detalles de la entrega:
 El endpoint de la API para eliminar una categoria es:
   "bookStore/remove-category/" metodo: PUT
 El mismo recibe un objeto JSON con el siguiente formato:
@@ -11,7 +11,7 @@ El mismo recibe un objeto JSON con el siguiente formato:
 
 ### Getting started
 
-####Prerequisites
+Prerequisites
 Docker and docker-compose. for installation instructions see [here](https://docs.docker.com/install/)
 
 ##### Make sure that the docker daemon is running.
